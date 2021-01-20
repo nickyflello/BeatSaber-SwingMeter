@@ -1,0 +1,9 @@
+﻿<settings-container>
+  <bool-setting text='Enabled' value='boolEnable'/>
+  <bool-setting text='Apply Pre-Swing' value='boolPreswing'/>
+  <bool-setting text='Apply Post-Swing' value='boolPostswing'/>
+  <slider-setting text='Offset X' min='0' max='5' increment='0.1' value='offsetX' integer-only='false' />
+  <slider-setting text='Offset Z' min='0' max='10' increment='0.1' value='offsetZ' integer-only='false' />
+  <slider-setting text='Meter Size X' min='0' max='1' increment='0.01' value='sizeX' integer-only='false' />
+  <slider-setting text='Meter Size Y' min='0' max='1' increment='0.01' value='sizeY' integer-only='false' />
+</settings-container>
