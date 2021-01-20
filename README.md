@@ -9,6 +9,7 @@ The top/bottom half of the meters are for swinging high and low enough.
 
 For example, if the top left meter is not full, you will need to swing higher with your left saber.
 
+![swing meter](https://user-images.githubusercontent.com/12634471/105147681-5e71dc00-5ab6-11eb-952e-f46749515722.PNG)
 ## Requirements
 - Beat Saber version 1.13+
 - BSUtils 1.4.1+
