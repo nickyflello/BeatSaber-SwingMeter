@@ -6,7 +6,11 @@ namespace SwingMeter
 	{
 		public override void InstallBindings()
 		{
-			Container.BindInterfacesAndSelfTo<GameManager>().AsSingle();
+			// If enabled and obect manager exists... (BeatmapObjectManager doesn't appear to exist in multiplayer)
+			if (ConfigHelper.Config.Enabled && Container.TryResolve<BeatmapObjectManager>() != null)
+			{
+				Container.BindInterfacesAndSelfTo<GameManager>().AsSingle();
+			}
 		}
 	}
 }
