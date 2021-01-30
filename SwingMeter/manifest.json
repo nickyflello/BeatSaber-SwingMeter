@@ -3,7 +3,7 @@
   "name": "Swing Meter",
   "id": "SwingMeter",
   "description": "Displays minimum swing angle meters beside the game track",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "gameVersion": "1.13.2",
   "author": "Nicky",
   "dependsOn": {
@@ -13,5 +13,7 @@
   },
   "conflictsWith": {},
   "features": [],
-  "links": {}
+  "links": {
+    "project-source": "https://github.com/nickyflello/BeatSaber-SwingMeter"
+  }
 }
