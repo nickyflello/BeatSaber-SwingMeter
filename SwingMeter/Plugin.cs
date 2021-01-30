@@ -16,7 +16,7 @@ namespace SwingMeter
 		[Init]
 		public Plugin(Zenjector zenjector)
 		{
-			zenjector.OnGame<GameInstaller>();
+			zenjector.OnGame<GameInstaller>().ShortCircuitForMultiplayer();
 		}
 
 		[OnStart]
