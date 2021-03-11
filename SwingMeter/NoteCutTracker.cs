@@ -6,27 +6,34 @@ using Zenject;
 
 namespace SwingMeter
 {
-	class NoteCutTracker : MonoBehaviour
+	public class NoteCutTracker : MonoBehaviour, INoteControllerNoteWasCutEvent, ISaberSwingRatingCounterDidFinishReceiver
 	{
 		public event Action<NoteData, ISaberSwingRatingCounter> NoteCutFinished;
 
 		public BeatmapObjectManager ObjectManager;
 
-		private void OnWasNoteCut(NoteController noteController, NoteCutInfo cutInfo)
+		private Dictionary<ISaberSwingRatingCounter, GameNoteController> _notesBeingCut = new Dictionary<ISaberSwingRatingCounter, GameNoteController>();
+
+		public void HandleSaberSwingRatingCounterDidFinish(ISaberSwingRatingCounter swingRatingCounter)
+		{
+			GameNoteController gameNote = _notesBeingCut[swingRatingCounter];
+			OnNoteCutFinished(gameNote.noteData, swingRatingCounter);
+
+			_notesBeingCut.Remove(swingRatingCounter);
+			swingRatingCounter.UnregisterDidFinishReceiver(this);
+		}
+
+		public void HandleNoteControllerNoteWasCut(NoteController noteController, in NoteCutInfo cutInfo)
 		{
 			if (noteController is GameNoteController gameNote)
 			{
-				noteController.noteWasCutEvent -= OnWasNoteCut;
+				//noteController.noteWasCutEvent -= OnWasNoteCut;
+				noteController.noteWasCutEvent.Remove(this);
 
-				if (cutInfo?.swingRatingCounter != null)
+				if (cutInfo.swingRatingCounter != null)
 				{
-					SwingSaberRatingDidFinishDelegate del = null;
-					del = new SwingSaberRatingDidFinishDelegate((ISaberSwingRatingCounter afterCutRating) =>
-					{
-						OnNoteCutFinished(gameNote.noteData, afterCutRating);
-						cutInfo.swingRatingCounter.didFinishEvent -= del;
-					});
-					cutInfo.swingRatingCounter.didFinishEvent += del;
+					_notesBeingCut[cutInfo.swingRatingCounter] = gameNote;
+					cutInfo.swingRatingCounter.RegisterDidFinishReceiver(this);
 				}
 			}
 		}
@@ -52,7 +59,7 @@ namespace SwingMeter
 			{
 				if (gameNote.noteData.colorType != ColorType.None)
 				{
-					gameNote.noteWasCutEvent += OnWasNoteCut;
+					gameNote.noteWasCutEvent.Add(this);
 				}
 			}
 		}
